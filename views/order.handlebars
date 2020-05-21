@@ -22,7 +22,29 @@
       <h2>Current Orders</h2>
       <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
       <table>
-        
+         <tr class="tableHeader">
+          <th>Order Date</th>
+          <th>Customer Name</th>
+          <th>Payment Type</th>
+          <th>Order Complete</th>
+          <th>Order Shipped</th>
+        </tr>
+        <tbody>
+          {{#each orders}}
+          <tr>
+            <td hidden>{{order_Num}}</td>
+            <td>{{order_Date}}</td>
+            <td>{{first_Name}}</td>
+            <td>{{payment_Type}}</td>
+            <td>{{order_Complete}}</td>
+            <td>{{order_Shipped}}</td>
+            <th>
+              <button id="editBtn">Edit</button>
+              <button id=editBtn>Delete</button>
+            </th>
+          </tr>
+          {{/each}}
+        </tbody>
       </table>
       <button class="add" onclick="window.location.href='addOrder.handlebars'">Add New Order</button>
     </section>

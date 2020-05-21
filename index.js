@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('mysql', mysql);
 app.use('/', require('./main.js'));
 app.use('/inventory.handlebars', require('./inventory.js'));
-// app.use('/order.handlebars'. require('./order.js'));
+app.use('/order.handlebars', require('./order.js'));
 // app.use('/customer.handlebars', require('./customer.js'));
 // app.use('/addCustomer.handlebars', require('./addC.js'));
 // app.use('/addOrder.handlebars', require('./addO.js'));
