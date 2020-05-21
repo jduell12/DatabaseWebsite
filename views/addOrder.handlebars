@@ -1,0 +1,83 @@
+  <h1 id="title">Order Management</h1>
+  <div class="outside">
+  <!--Main Layout-->
+  <main>
+    <!-- Main Navigation-->
+    <header>
+      <div class="link">
+        <a href="/">Home</a>
+      </div>
+      <div class="link">
+        <a href="inventory.handlebars">Manage Inventory</a>
+      </div>
+      <div class="link">
+        <a href="order.handlebars">Manage Orders</a>
+      </div>
+      <div class="link">
+        <a href="customer.handlebars">Manage Customers</a>
+      </div>
+    </header>
+    <section  class="formWrapper">
+      <h2>Form for a New Order</h2>
+      <form action="post">
+        <div class="orderDate">
+          <label for="oDate">Order Date</label><br>
+          <input name="oDate" type="date">
+        </div>
+        <div class="name">
+          <label for="firstName">First Name</label><br>
+          <input type="text" name="firstName"> 
+        </div>
+        <div class="name">
+          <label for="lastName">Last Name</label><br>
+          <input type="text" name="lastName">
+        </div>
+        <div class="dob">
+          <label for="dateof">Date of Birth</label>
+          <input name="dateof" type="date">
+        </div>
+        <div class="orderItems">
+          <div class="row">
+            <h2>Item</h2>
+            <h2>Quantity</h2>
+            <h2>Price</h2>
+          </div>
+          <div class="row">
+            <div class="col"> 
+              <span>1.</span><input type="text" name="item"> 
+            </div>
+            <div class="col">
+              <input type="number" min=0 step="1">
+            </div>
+            <div class="col">
+              <span>$</span><input type="number" min=0 step="0.01">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> 
+              <span>2.</span><input type="text" name="item"> 
+            </div>
+            <div class="col">
+              <input type="number" min=0 step="1">
+            </div>
+            <div class="col">
+              <span>$</span><input type="number" min=0 step="0.01">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"> 
+              <span>3.</span><input type="text" name="item"> 
+            </div>
+            <div class="col">
+              <input type="number" min=0 step="1">
+            </div>
+            <div class="col">
+              <span>$</span><input type="number" min=0 step="0.01">
+            </div>
+          </div>
+        </div>
+          <input  class = "submit" type="submit" name="Submit" value=Submit>
+      </form>
+    </section> 
+  </div>
+  </main>
