@@ -222,6 +222,10 @@ body{
     background-color: #45a049;
   }
 
+  td{
+    padding: 1%;
+  }
+
   /*addOrder styles*/
   #myInput {
     width: 90%;

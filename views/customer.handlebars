@@ -25,7 +25,35 @@
   <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
   <table id="myTable">
-
+      <tr class="tableHeader">
+          <th>Customer Name</th>
+          <th>Date of Birth</th>
+          <th>Phone Number</th>
+          <th>Address</th>
+          <th>Email</th>
+          <th>Preferred Payment Type</th>
+        </tr>
+        <tbody>
+          {{#each customers}}
+          <tr>
+            <td hidden>{{customer_Num}}</td>
+            <td>{{first_Name}} {{last_Name}}</td>
+            <td>{{dob}}</td>
+            <td>{{phone_Num}}</td>
+            {{#if same_Billing_Address}}
+            <td>{{street}}, {{city}}, {{shipState}}, {{zip}}</td>
+            {{else}}
+                <td>{{street}}, {{city}}, {{shipState}}, {{zip}}</td>
+            {{/if}}
+            <td>{{email}}</td>
+            <td>{{preferred_Payment_Type}}</td>
+            <th>
+              <button id="editBtn">Edit</button>
+              <button id="deleteBtn">Delete</button>
+            </th>
+          </tr>
+          {{/each}}
+        </tbody>
   </table>
 
 <button class="add" onclick="window.location.href='addCustomer.handlebars'">Add New Customer</button>
