@@ -37,8 +37,8 @@
             <td>{{item_Price}}</td>
             <td>{{number_Items_In_Stock}}</td>
             <th>
-              <button id="editBtn">Edit</button>
-              <button id="deleteBtn">Delete</button>
+              <button onclick="editItem({{item_Num}})">Edit</button>
+              <button onclick="deleteItem({{item_Num}})">Delete</button>
             </th>
           </tr>
           {{/each}}
@@ -48,3 +48,15 @@
     </section>
   </div>
   </main>
+
+  <script>
+        function deleteItem(item_Num){
+        $.ajax({
+            url: '/inventory/' + item_Num,
+            type: 'DELETE',
+            success: function(result){
+                window.location.reload(true);
+            }
+        })
+    };
+  </script>
