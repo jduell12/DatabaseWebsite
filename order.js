@@ -12,10 +12,6 @@ module.exports = function(){
             complete();
         });
     }
-
-    // function getCustomerName(res, mysql, context, complete){
-    //     mysql.pool.query("SELECT first_Name FROM Customers WHERE ")
-    // }
  
 
     router.get('/', function(req, res){
@@ -23,7 +19,6 @@ module.exports = function(){
         let context = {};
         let mysql = req.app.get('mysql');
         getOrders(res, mysql, context, complete);
-        // getCustomerName(res, mysql, context, complete);
         function complete(){
             callBackCount++;
             if(callBackCount >= 1){

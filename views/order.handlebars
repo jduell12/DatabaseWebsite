@@ -36,8 +36,16 @@
             <td>{{order_Date}}</td>
             <td>{{first_Name}}</td>
             <td>{{payment_Type}}</td>
-            <td>{{order_Complete}}</td>
-            <td>{{order_Shipped}}</td>
+            {{#if order_Complete}}
+            <td>Yes</td>
+            {{else}}
+            <td>No</td>
+            {{/if}}
+             {{#if order_Shipped}}
+            <td>Yes</td>
+            {{else}}
+            <td>No</td>
+            {{/if}}
             <th>
               <button id="editBtn">Edit</button>
               <button id=editBtn>Delete</button>
