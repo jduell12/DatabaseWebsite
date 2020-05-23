@@ -28,21 +28,21 @@ module.exports = function(){
     });
 
     /*Route to delete item from database */
-    router.delete('/inventory/:item_Num', function(req, res){
-        let mysql = req.app.get('mysql');
-        let sql = "DELETE FROM Items WHERE item_Num = ?";
-        let inserts = [req.params.item_Num];
-        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
-            if(error){
-                console.log(error);
-                res.write(JSON.stringify(error));
-                res.status(400);
-                res.end();
-            }else{
-                res.status(202).end();
-            }
-        })
-    });
+    // router.delete('/inventory/:item_Num', function(req, res){
+    //     let mysql = req.app.get('mysql');
+    //     let sql = "DELETE FROM Items WHERE item_Num = ?";
+    //     let inserts = [req.params.item_Num];
+    //     sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+    //         if(error){
+    //             console.log(error);
+    //             res.write(JSON.stringify(error));
+    //             res.status(400);
+    //             res.end();
+    //         }else{
+    //             res.status(202).end();
+    //         }
+    //     })
+    // });
 
     return router;
 }();

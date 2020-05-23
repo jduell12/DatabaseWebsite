@@ -24,7 +24,7 @@ module.exports = function(){
                 res.render('main', context);
             }
         }
-    })
+    });
 
     return router;
 }();
