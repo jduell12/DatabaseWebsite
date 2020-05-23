@@ -14,14 +14,12 @@
     "mysql": "^2.18.1"
   }
 }
-
-
 {
   "name": "node-js-getting-started",
   "version": "0.3.0",
   "description": "A sample Node.js app using Express 4",
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "main": "index.js",
   "scripts": {
