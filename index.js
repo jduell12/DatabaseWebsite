@@ -28,21 +28,21 @@ app.get('/inventory.handlebars', function(req, res){
 
 app.get('/addItem', function(req, res){
     res.render('addItem');
-})
-app.post('/addItem', function(req, res, next){
-    let context = {};
+});
 
+app.post('/addItem', function(req, res, next){
     if(req.body['Submit']){
-        mysql.pool.query("INSERT INTO Items (item_Type, item_Name, item_Price, number_Items_In_Stock) VALUES (?, ?, ?, ?);", [req.body.itemType, req.body.itemName, req.body.price, req.body.quantity], function(err){
+        mysql.pool.query("INSERT INTO Items VALUES (NULL, ?, ?, ?, ?);", [req.body.itemType, req.body.itemName, req.body.price, req.body.quantity], function(err){
             if (err) {
                 next(err);
                 return;
             }
         });
     }
-    res.render('inventory');
-    
-})
+    res.redirect('/');
+});
+
+
 
 app.get('/order.handlebars', function(req, res){
     res.render('order');
