@@ -26,10 +26,12 @@ app.get('/inventory.handlebars', function(req, res){
     res.render('inventory');
 });
 
+/* Fetches Item Data from Database and Displays on the addItem html page */
 app.get('/addItem', function(req, res){
     res.render('addItem');
 });
 
+/* Uses the submit button on the addItem page to enter data into database then returns user to inventory.handlebars html page */
 app.post('/addItem', function(req, res, next){
     if(req.body['Submit']){
         mysql.pool.query("INSERT INTO Items VALUES (NULL, ?, ?, ?, ?);", [req.body.itemType, req.body.itemName, req.body.price, req.body.quantity], function(err){
@@ -39,7 +41,7 @@ app.post('/addItem', function(req, res, next){
             }
         });
     }
-    res.redirect('/');
+    res.redirect('/inventory.handlebars');
 });
 
 
