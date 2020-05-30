@@ -3,7 +3,6 @@ const app = express();
 const port = 8766;
 const handlebars = require('express-handlebars').create({defaultLayout: 'index'});
 
-
 const mysql = require('./dbcon.js');
 const bodyParser = require('body-parser');
 
@@ -43,9 +42,30 @@ app.post('/addItem', function(req, res, next){
 });
 
 
-
 app.get('/order.handlebars', function(req, res){
     res.render('order');
+});
+
+app.post('/addOrder.handlebars', function(req, res, next){
+    
+     mysql.pool.query("SELECT customer_Num FROM Customers WHERE first_name = ? AND last_Name = ?", [req.body.firstName, req.body.lastName], function(error, results, fields){
+        if(error){
+            res.write(JSON.stringify(error));
+            res.end();
+        }
+
+        console.log(results);
+    
+        // mysql.pool.query("SELECT preferred_Payment_Type FROM Customers WHERE customer_Num = ?;", [JSON.stringify(results[0])], function(error, results, fields){
+        //     if(error){
+        //         res.write(JSON.stringify(error));
+        //         res.end();
+        //     }
+        //     console.log(JSON.stringify(results[0]));
+        // })
+    });
+
+    res.redirect('/order.handlebars');
 });
 
 app.get('/customer.handlebars', function(req, res){

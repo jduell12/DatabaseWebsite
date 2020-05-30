@@ -19,10 +19,10 @@
     </header>
     <section  class="formWrapper">
       <h2>Form for a New Order</h2>
-      <form action="post" class="orderForm">
+      <form method="post", class="orderForm">
         <div class="orderDate">
-          <label for="oDate">Order Date</label><br>
-          <input name="oDate" type="date">
+          <label for="oDate">Order Date (Format: yyyy-mm-dd)</label><br>
+          <input name="oDate" type="text">
         </div>
         <div class="name">
           <label for="firstName">First Name</label><br>
@@ -31,10 +31,6 @@
         <div class="name">
           <label for="lastName">Last Name</label><br>
           <input type="text" name="lastName">
-        </div>
-        <div class="dob">
-          <label for="dateof">Date of Birth</label>
-          <input name="dateof" type="date">
         </div>
         <div class="orderItems">
           <div class="row">
