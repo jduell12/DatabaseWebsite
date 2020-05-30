@@ -26,12 +26,10 @@ app.get('/inventory.handlebars', function(req, res){
     res.render('inventory');
 });
 
-/* Fetches Item Data from Database and Displays on the addItem html page */
 app.get('/addItem', function(req, res){
     res.render('addItem');
 });
 
-/* Uses the submit button on the addItem page to enter data into database then returns user to inventory.handlebars html page */
 app.post('/addItem', function(req, res, next){
     if(req.body['Submit']){
         mysql.pool.query("INSERT INTO Items VALUES (NULL, ?, ?, ?, ?);", [req.body.itemType, req.body.itemName, req.body.price, req.body.quantity], function(err){
@@ -41,7 +39,7 @@ app.post('/addItem', function(req, res, next){
             }
         });
     }
-    res.redirect('/inventory.handlebars');
+    res.redirect('/');
 });
 
 
@@ -69,17 +67,51 @@ app.post('/addOrder.handlebars', function(req, res, next){
                 return;
             }
         });
+
+        // console.log(custId);
+        // console.log(payment);
     });
 
     //gets item price that was selected from html form and creates new order item in Order_Items table
+    
     mysql.pool.query("SELECT item_Price FROM Items WHERE item_Num = ?;", [req.body.item_Num], function(err, results, fields){
         if(err){
             res.write(JSON.stringify(err));
-        res.end();
+            res.end();
         }
 
         context = results;
-        console.log(context);
+        let itemPrice = context[0].item_Price;
+        let sellingPrice = itemPrice;
+        // console.log(itemPrice);
+
+        
+        //gets order Num from order created above
+        mysql.pool.query("SELECT order_Num from Orders ORDER BY order_Num DESC LIMIT 1;", function(err, results, fields){
+            if(err){
+                next(err);
+                return;
+            }
+
+            context = results;
+            let order_Num = context[0].order_Num + 1;
+
+            if(req.body.discount !== 0){
+                let percent = parseInt(req.body.discount[0])/100;
+                sellingPrice = (sellingPrice - (sellingPrice * percent));
+                sellingPrice = sellingPrice.toFixed(2);
+            }
+            // console.log(order_Num);
+            // console.log(sellingPrice);
+
+            //inserts order items into order_items table
+            mysql.pool.query("INSERT INTO Order_Items VALUES(NULL, ?, ?, ?, 0, NULL, ?, ?);",[req.body.quant[0], req.body.discount[0], sellingPrice, order_Num, req.body.itemNum], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+            })
+        })
     });
 
     res.redirect('/order.handlebars');
