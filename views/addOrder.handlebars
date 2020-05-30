@@ -34,43 +34,38 @@
         </div>
         <div class="orderItems">
           <div class="row">
+            <div class="col">
+              <h2 hidden>Checkbox</h2>
+            </div>
             <h2>Item</h2>
+            <h2>Item Type</h2>
             <h2>Quantity</h2>
             <h2>Price</h2>
+            <h2>Discount</h2>
           </div>
+          {{#each items}}
           <div class="row">
+            <div class="col">
+              <input type="checkbox" name="item_Num" value={{item_Num}}>
+            </div>
             <div class="col"> 
-              <span>1.</span><input type="text" name="item"> 
+              <span>{{item_Name}}</span>
             </div>
             <div class="col">
-              <input type="number" min=0 step="1">
+              <span name="item_Type">{{item_Type}}</span>
             </div>
             <div class="col">
-              <span>$</span><input type="number" min=0 step="0.01">
+              <input name="quant" type="number" min=0 step="1">
+            </div>
+            <div class="col">
+              <span>$</span><span>{{item_Price}}</span>
+            </div>
+            <div class="col">
+              <input name="discount" type="number" min=0 step="1">
             </div>
           </div>
-          <div class="row">
-            <div class="col"> 
-              <span>2.</span><input type="text" name="item"> 
-            </div>
-            <div class="col">
-              <input type="number" min=0 step="1">
-            </div>
-            <div class="col">
-              <span>$</span><input type="number" min=0 step="0.01">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col"> 
-              <span>3.</span><input type="text" name="item"> 
-            </div>
-            <div class="col">
-              <input type="number" min=0 step="1">
-            </div>
-            <div class="col">
-              <span>$</span><input type="number" min=0 step="0.01">
-            </div>
-          </div>
+          {{/each}}
+          <p>Discount is a percentage as a whole number. So if the discount is 50% input 50</p>
         </div>
           <input  class = "submit" type="submit" name="Submit" value=Submit>
       </form>

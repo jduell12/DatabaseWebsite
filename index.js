@@ -16,6 +16,7 @@ app.use('/', express.static('public'));
 app.use('/inventory.handlebars', require('./inventory.js'));
 app.use('/order.handlebars', require('./order.js'));
 app.use('/customer.handlebars', require('./customer.js'));
+app.use('/addOrder.handlebars', require('./addOrder.js'))
 
 app.get('/', function(req, res){
     res.render('main');
@@ -47,25 +48,31 @@ app.get('/order.handlebars', function(req, res){
 });
 
 app.post('/addOrder.handlebars', function(req, res, next){
+    let context = {};
     
-     mysql.pool.query("SELECT customer_Num FROM Customers WHERE first_name = ? AND last_Name = ?", [req.body.firstName, req.body.lastName], function(error, results, fields){
+    mysql.pool.query("SELECT customer_Num, preferred_Payment_Type FROM Customers WHERE first_name = ? AND last_Name = ?;", [req.body.firstName, req.body.lastName], function(error, results, fields){
         if(error){
             res.write(JSON.stringify(error));
             res.end();
         }
 
-        console.log(results);
-    
-        // mysql.pool.query("SELECT preferred_Payment_Type FROM Customers WHERE customer_Num = ?;", [JSON.stringify(results[0])], function(error, results, fields){
-        //     if(error){
-        //         res.write(JSON.stringify(error));
-        //         res.end();
-        //     }
-        //     console.log(JSON.stringify(results[0]));
-        // })
+        context = results;
+        let custId = context[0].customer_Num;
+        let payment = context[0].preferred_Payment_Type;
+        console.log(custId);
+        console.log(payment);
+
+        //query item_price
+        
+        let query = mysql.pool.query("INSERT INTO Orders VALUES (NULL, ?, ?, 0, 0, ?);", [req.body.oDate, payment, custId], function(err){
+            if (err) {
+                next(err);
+                return;
+            }
+        });
     });
 
-    res.redirect('/order.handlebars');
+    res.redirect('/');
 });
 
 app.get('/customer.handlebars', function(req, res){

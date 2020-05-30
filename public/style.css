@@ -32,6 +32,10 @@ a:hover{
   color:inherit;
 }
 
+span{
+  font-size: 1.75rem;
+}
+
 h2{
   font-size: 3rem;
   font-weight: bold;
@@ -236,7 +240,15 @@ td{
   margin-bottom: 12px;
 }
 
-.tableWrapper{
+.col{
+  max-width: 16.5%;
+}
+
+.row{
+  margin: 3% 0;
+}
+
+/* .tableWrapper{
   text-align: center;
 }
 
@@ -251,7 +263,7 @@ td{
 table th{
   width: 2%;
   font-size: 1.5rem;
-}
+} */
 
 /*Order Form section styles*/
 .formWrapper{
