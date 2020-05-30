@@ -44,19 +44,7 @@
           {{/each}}
         </tbody>
       </table>
-      <button class="add" onclick="window.location.href='/add'">Add New Inventory</button>
+      <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
   </div>
   </main>
-
-  {{!-- <script>
-        function deleteItem(item_Num){
-        $.ajax({
-            url: '/inventory/' + item_Num,
-            type: 'DELETE',
-            success: function(result){
-                window.location.reload(true);
-            }
-        })
-    };
-  </script> --}}
