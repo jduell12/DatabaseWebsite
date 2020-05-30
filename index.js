@@ -17,6 +17,7 @@ app.use('/inventory.handlebars', require('./inventory.js'));
 app.use('/order.handlebars', require('./order.js'));
 app.use('/customer.handlebars', require('./customer.js'));
 app.use('/addOrder.handlebars', require('./addOrder.js'))
+// app.use('/orderItems.handlebars', require('./orderItems.js'));
 
 app.get('/', function(req, res){
     res.render('main');
@@ -68,8 +69,6 @@ app.post('/addOrder.handlebars', function(req, res, next){
             }
         });
 
-        // console.log(custId);
-        // console.log(payment);
     });
 
     //gets item price that was selected from html form and creates new order item in Order_Items table
@@ -83,7 +82,6 @@ app.post('/addOrder.handlebars', function(req, res, next){
         context = results;
         let itemPrice = context[0].item_Price;
         let sellingPrice = itemPrice;
-        // console.log(itemPrice);
 
         
         //gets order Num from order created above
@@ -101,8 +99,6 @@ app.post('/addOrder.handlebars', function(req, res, next){
                 sellingPrice = (sellingPrice - (sellingPrice * percent));
                 sellingPrice = sellingPrice.toFixed(2);
             }
-            // console.log(order_Num);
-            // console.log(sellingPrice);
 
             //inserts order items into order_items table
             mysql.pool.query("INSERT INTO Order_Items VALUES(NULL, ?, ?, ?, 0, NULL, ?, ?);",[req.body.quant[0], req.body.discount[0], sellingPrice, order_Num, req.body.itemNum], function(err){
@@ -116,6 +112,10 @@ app.post('/addOrder.handlebars', function(req, res, next){
 
     res.redirect('/order.handlebars');
 });
+
+// app.get('/orderItems.handlebars', function(req, res){
+//     res.render('orderItems');
+// })
 
 app.get('/customer.handlebars', function(req, res){
     res.render('customer');

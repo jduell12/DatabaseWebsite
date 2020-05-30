@@ -231,6 +231,18 @@ td{
   padding: 1%;
 }
 
+#checkbox-1{
+  width: 2%;
+}
+
+#checkboxLabel{
+  display: inline;
+}
+
+.checkboxDiv{
+  margin: 3%;
+}
+
 /*addOrder styles*/
 #myInput {
   width: 90%;
@@ -247,23 +259,6 @@ td{
 .row{
   margin: 3% 0;
 }
-
-/* .tableWrapper{
-  text-align: center;
-}
-
-.tableWrapper h2{
-  font-size: 3rem;
-}
-
-.tableHeader th{
-  font-size: 2rem;
-}
-
-table th{
-  width: 2%;
-  font-size: 1.5rem;
-} */
 
 /*Order Form section styles*/
 .formWrapper{
