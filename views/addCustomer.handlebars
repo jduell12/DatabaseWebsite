@@ -80,13 +80,36 @@
 
               </div>
             </div>
+
+
           <input type="submit" name="submit" value="Submit">
           <br>
+
+
           <div class="checkboxDiv">
-              <input id="checkbox-1" class="checkbox-custom" name="checkbox-1" type="checkbox" checked>
-              <label id="checkboxLabel" for="checkbox-1">Same as Billing</label>
+              <label for="shippingCheck">Shipping same as Billing<input type="checkbox" id="shippingCheck" onclick="checkFunction()" checked></label>
+              
           </div>
-    	</form>
+
+              <div class="shippingaddress" id="shippingaddress" style="display:none">
+                <h3>Shipping Address If Different</h3>
+
+                  <label for="fname">First Name</label>
+                  <input type="text" id="fname" name="firstname:required" placeholder="First Name">
+                  <label for="lname">Last Name</label>
+                  <input type="text" id="fname" name="firstname:required" placeholder="Last Name">
+                  <label for="adr">Address</label>
+                  <input type="text" id="adr" name="address" placeholder="Address Here">
+                  <label for="city">City</label>
+                  <input type="text" id="city" name="city" placeholder="City Here">
+                  <label for="state">State</label>
+                  <input type="text" id="state" name="state" placeholder="State Here">
+                  <label for="zip">Zip</label>
+                  <input type="text" id="zip" name="zip" placeholder="Zip Here">
+
+              </div>
+
+
         </div>
       </div>
     </div>
@@ -98,6 +121,17 @@
       cont.style.display = 'none';
     }else{
       cont.style.display = 'block';
+    }
+  }
+
+
+  function checkFunction(){
+    var checkBox = document.getElementById("shippingCheck");
+    var text = document.getElementById("shippingaddress");
+    if(checkBox.checked == true){
+      text.style.display = "none";
+    }else{
+      text.style.display = "block";
     }
   }
 </script>
