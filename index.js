@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('mysql', mysql);
 app.use('/', express.static('public'));
 app.use('/inventory.handlebars', require('./inventory.js'));
+app.use('/editItem.handlebars', require('./inventory.js'));
 app.use('/order.handlebars', require('./order.js'));
 app.use('/customer.handlebars', require('./customer.js'));
 app.use('/addOrder.handlebars', require('./addOrder.js'))
@@ -43,6 +44,9 @@ app.post('/addItem', function(req, res, next){
     res.redirect('/');
 });
 
+app.get('/editItem', function(req, res){
+    res.render('editItem');
+});
 
 app.get('/order.handlebars', function(req, res){
     res.render('order');

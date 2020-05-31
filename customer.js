@@ -28,5 +28,36 @@ module.exports = function(){
         }
     });
 
+    /* Displays all people. Requires web based javascript to delete users with Ajax */
+    router.get('/', function(req, res){
+        let callBackCount = 0;
+        let context = {};
+        context.jsscripts = ["deleteCustomer.js"];
+        let mysql = req.app.get('mysql');
+        getItems(res, mysql, context, complete);
+        function complete(){
+            callBackCount++;
+            if(callBackCount >= 1){
+                res.render('customer', context);
+            }
+        }
+    });
+
+    /* Route to delete customer from database, returns 202 upon success. Ajax will handle this. */
+    router.delete('/:customer_Num', function(req, res){
+        let mysql = req.app.get('mysql');
+        let sql = "DELETE FROM Customers WHERE customer_Num = ?";
+        let inserts = [req.params.customer_Num];
+        sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.status(400);
+                res.end();
+            }else{
+                res.status(202).end();
+            }
+        })
+    });
+
     return router;
 }();

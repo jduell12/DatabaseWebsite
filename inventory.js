@@ -13,10 +13,25 @@ module.exports = function(){
         });
     }
 
+    /* Returns a list of one results */
+    function getItem(res, mysql, context, item_Num, complete){
+        let sql = "SELECT item_Num, item_Type, item_Name, item_Price, number_Items_In_Stock FROM Items WHERE item_Num = ?";
+        let inserts = [item_Num];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.item = results[0];
+            complete();
+        });
+    }
+
+    /* Displays all people. Requires web based javascript to delete users with Ajax */
     router.get('/', function(req, res){
         let callBackCount = 0;
         let context = {};
-        context.jsscripts = ["deleteItem.js"];
+        context.jsscripts = ["deleteItem.js", "editItem.js"];
         let mysql = req.app.get('mysql');
         getItems(res, mysql, context, complete);
         function complete(){
@@ -26,6 +41,23 @@ module.exports = function(){
             }
         }
     });
+
+    /* The URI update data is sent to in order to update an item */
+    router.put('/:item_Num', function(req, res){
+        let mysql = req.app.get('mysql');
+        let sql = "UPDATE Items SET item_Type=?, item_Name=?, item_Price=?, number_Items_In_Stock=? WHERE item_Num=?";
+        let inserts = [req.body.item_Type, req.body.item_Name, req.body.item_Price, req.body.number_Items_In_Stock, req.params.item_Num];
+        sql = mysql.pool.query(sql,inserts,function(error,results,fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }else{
+                res.status(200);
+                res.end();
+            }
+        });
+    });
+
 
     /* Route to delete item from database, returns 202 upon success. Ajax will handle this. */
     router.delete('/:item_Num', function(req, res){

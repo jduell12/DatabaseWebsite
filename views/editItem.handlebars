@@ -1,0 +1,15 @@
+  <head>
+    <script src="../public/editItem.js"></script>
+  </head>
+
+
+
+  <h1>Update {{item_Name}} {{item_Type}}</h1>
+  <form id="update-item" action="/inventory" method="post">
+    Item Name: <input type="text" name="item_Name" value="{{items.item_Name}}"><br>
+    Item Type: <input type="text" name="item_Type" value="{{items.item_Type}}"><br>
+    Item Price: <input type="text" name="item_Price" value="{{items.item_Price}}"><br>
+    Items in Stock: <input type="text" name="number_Items_In_Stock" value="{{items.number_Items_In_Stock}}"><br>
+  </form>
+  <button onclick="updateItem({{item.item_Num}})">Update</button>
+  
