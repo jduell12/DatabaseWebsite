@@ -41,7 +41,8 @@ app.post('/addItem', function(req, res, next){
             }
         });
     }
-    res.redirect('/');
+    res.redirect('/inventory.handlebars');
+    res.redirect('/inventory.handlebars');
 });
 
 app.get('/editItem', function(req, res){
