@@ -130,7 +130,15 @@ app.get('/addCustomer.handlebars', function(req, res){
 });
 
 app.post('/addCustomer.handlebars', function(req, res){
+    let context = {};
 
+    if(req.body.checkbox !== undefined){
+
+    }else {
+
+    }
+
+    res.redirect('/customer');
 });
 
 app.get('/addOrder.handlebars', function(req, res){
