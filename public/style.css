@@ -32,6 +32,10 @@ a:hover{
   color:inherit;
 }
 
+span{
+  font-size: 1.75rem;
+}
+
 h2{
   font-size: 3rem;
   font-weight: bold;
@@ -148,6 +152,7 @@ td{
   font-size: 1.5rem;
 }
 
+
 /*addCustomer styles*/
 
 .row {
@@ -226,6 +231,18 @@ td{
   padding: 1%;
 }
 
+#checkbox-1{
+  width: 2%;
+}
+
+#checkboxLabel{
+  display: inline;
+}
+
+.checkboxDiv{
+  margin: 3%;
+}
+
 /*addOrder styles*/
 #myInput {
   width: 90%;
@@ -235,21 +252,12 @@ td{
   margin-bottom: 12px;
 }
 
-.tableWrapper{
-  text-align: center;
+.col{
+  max-width: 16.5%;
 }
 
-.tableWrapper h2{
-  font-size: 3rem;
-}
-
-.tableHeader th{
-  font-size: 2rem;
-}
-
-table th{
-  width: 2%;
-  font-size: 1.5rem;
+.row{
+  margin: 3% 0;
 }
 
 /*Order Form section styles*/

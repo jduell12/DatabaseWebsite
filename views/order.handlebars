@@ -21,6 +21,7 @@
     <section class="tableWrapper">
       <h2>Current Orders</h2>
       <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+      <button class="add" onclick="window.location.href='addOrder.handlebars'">Add New Order</button>
       <table>
          <tr class="tableHeader">
           <th>Order Date</th>
@@ -34,7 +35,7 @@
           <tr>
             <td hidden>{{order_Num}}</td>
             <td>{{order_Date}}</td>
-            <td>{{first_Name}}</td>
+            <td>{{first_Name}} {{last_Name}}</td>
             <td>{{payment_Type}}</td>
             {{#if order_Complete}}
             <td>Yes</td>
@@ -47,6 +48,7 @@
             <td>No</td>
             {{/if}}
             <th>
+              <button onclick="window.location.href='/orderItems'">See Order</button>
               <button id="editBtn">Edit</button>
               <button id="deleteBtn">Delete</button>
             </th>
@@ -54,7 +56,6 @@
           {{/each}}
         </tbody>
       </table>
-      <button class="add" onclick="window.location.href='addOrder.handlebars'">Add New Order</button>
     </section>
   </div>
   </main>
