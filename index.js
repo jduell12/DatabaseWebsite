@@ -136,11 +136,12 @@ app.get('/addCustomer.handlebars', function(req, res){
 
 app.post('/addCustomer.handlebars', function(req, res){
     let context = {};
+    console.log("inside addCustomer post");
 
     if(req.body.checkbox !== undefined){
-
+        console.log("checkbox clicked");
     }else {
-
+        console.log("checkbox not checked");
     }
 
     res.redirect('/customer');
