@@ -160,19 +160,20 @@ app.post('/addCustomer.handlebars', function(req, res, next){
                     return;
                 }
             })
+
+            mysql.pool.query("SELECT billing_Num FROM Billing_Addresses ORDER BY billing_Num DESC LIMIT 1;", function(err, results, fields){
+                if(err){
+                    next(err);
+                    return;
+                }
+     
+                context = results; 
+                console.log(context);
+                let billingNum = context[0].billing_Num;
+     
+                mysql.pool.query("UPDATE Customers SET fk_billing_Num = ? WHERE customer_Num = ?", [billingNum, customerNum]);
+            })
         })
-       })
-
-       mysql.pool.query("SELECT billing_Num FROM Billing_Adresses ORDER BY billing_Num DESC LIMIT 1;", function(err, results, fields){
-           if(err){
-               next(err);
-               return;
-           }
-
-           context = results; 
-           let billingNum = context[0].billing_Num;
-
-           mysql.pool.query("UPDATE Customers SET fk_billing_Num = ? WHERE customer_Num = ?", [billingNum, customerNum]);
        })
     }else {
         

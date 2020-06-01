@@ -13,20 +13,6 @@ module.exports = function(){
             complete();
         });
     }
- 
-
-    router.get('/', function(req, res){
-        let callBackCount = 0;
-        let context = {};
-        let mysql = req.app.get('mysql');
-        getCustomers(res, mysql, context, complete);
-        function complete(){
-            callBackCount++;
-            if(callBackCount >= 1){
-                res.render('customer', context);
-            }
-        }
-    });
 
     /* Displays all people. Requires web based javascript to delete users with Ajax */
     router.get('/', function(req, res){
@@ -34,7 +20,7 @@ module.exports = function(){
         let context = {};
         context.jsscripts = ["deleteCustomer.js"];
         let mysql = req.app.get('mysql');
-        getItems(res, mysql, context, complete);
+        getCustomers(res, mysql, context, complete);
         function complete(){
             callBackCount++;
             if(callBackCount >= 1){
