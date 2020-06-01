@@ -136,15 +136,44 @@ app.get('/addCustomer.handlebars', function(req, res){
 
 app.post('/addCustomer.handlebars', function(req, res, next){
     let context = {};
-    console.log(req.body);
+    // console.log(req.body);
 
+    //adds new customer to customer table
     if(req.body['submitBilling']){
-    //    mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
-    //     if(err){
-    //         next(err);
-    //         return;
-    //     }
-    //    })
+       mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+        if(err){
+            next(err);
+            return;
+        }
+
+        mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+            if(err){
+                next(err);
+                return;
+            }
+            context = results; 
+            let customerNum = context[0].customer_Num
+
+            mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+            })
+        })
+       })
+
+       mysql.pool.query("SELECT billing_Num FROM Billing_Adresses ORDER BY billing_Num DESC LIMIT 1;", function(err, results, fields){
+           if(err){
+               next(err);
+               return;
+           }
+
+           context = results; 
+           let billingNum = context[0].billing_Num;
+
+           mysql.pool.query("UPDATE Customers SET fk_billing_Num = ? WHERE customer_Num = ?", [billingNum, customerNum]);
+       })
     }else {
         
     }
