@@ -134,17 +134,22 @@ app.get('/addCustomer.handlebars', function(req, res){
     res.render('addCustomer');
 });
 
-app.post('/addCustomer.handlebars', function(req, res){
+app.post('/addCustomer.handlebars', function(req, res, next){
     let context = {};
-    console.log("inside addCustomer post");
+    console.log(req.body);
 
-    if(req.body.checkbox !== undefined){
-        console.log("checkbox clicked");
+    if(req.body['submitBilling']){
+    //    mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+    //     if(err){
+    //         next(err);
+    //         return;
+    //     }
+    //    })
     }else {
-        console.log("checkbox not checked");
+        
     }
 
-    res.redirect('/customer');
+    res.redirect('/customer.handlebars');
 });
 
 app.get('/addOrder.handlebars', function(req, res){

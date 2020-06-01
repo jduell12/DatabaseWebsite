@@ -27,94 +27,87 @@
                 <h2>New Customer Form</h2>
                 <h3>Billing Address</h3>
                 <form class="form2" method="post">
-                <p class="billingaddress">
-                	<label for="fname">First Name</label>
-                	<input type="text" id="fname" name="firstname:required" placeholder="First Name">
-                	<label for="lname">Last Name</label>
-                	<input type="text" id="fname" name="firstname:required" placeholder="Last Name">
-                  <label class="control-label">Date of Birth</label>
-                  <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY"/>
-                </p>
+                  <p class="billingaddress">
+                    <label for="fname">First Name</label>
+                    <input type="text" id="fname" name="firstName" placeholder="First Name">
+                    <label for="lname">Last Name</label>
+                    <input type="text" id="fname" name="lastName" placeholder="Last Name">
+                    <label class="control-label">Date of Birth</label>
+                    <input type="text" name="dob" placeholder="Format yyyy-mm-dd">
+                  </p>
 
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email" placeholder="Email Address Here">
+                    {{!-- <label for="phone">Phone Number</label>
+                    <input type="text" name="phone" placeholder="Format xxx-xxx-xxxx" required>
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" placeholder="Email Address Here" required>
+                    <label for="adr">Address</label>
+                    <input type="text" id="adr" name="address" placeholder="Stree Address Here" required>
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="city" placeholder="City Here" required>
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="state" placeholder="State Here" required>
+                    <label for="zip">Zip</label>
+                    <input type="text" id="zip" name="zip" placeholder="Zip Here" required>
+                    <label for="country">Country</label>
+                    <input type="text" name="country" placeholder="Country Here" required> --}}
+                  <div class="col-50">
+                  <h3>Payment Type</h3>
 
-                <label for="adr">Address</label>
-                <input type="text" id="adr" name="address" placeholder="Address Here">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" placeholder="City Here">
-
-                <label for="state">State</label>
-                <input type="text" id="state" name="state" placeholder="State Here">
-
-                <label for="zip">Zip</label>
-                <input type="text" id="zip" name="zip" placeholder="Zip Here">
-
-              </div>
-              <div class="col-50">
-                <h3>Payment Type</h3>
-
-                <select id="paymentType" onchange="toggle()">
-                  <option value="paypal" selected>Paypal</option>
-                  <option value="creditCard">Credit Card</option>
-                </select>
-                
-                <div class="cc" id="cc" style="display:none">
-                  <label for="cname">Name on Card</label>
-                  <input type="text" id="cname" name="cardname" placeholder="Name As Written On Card">
-                  <label for="ccnum">Credit card number</label>
-                  <input type="text" id="ccnum" name="cardnumber" placeholder="Enter Card Number With Dashes">
-                  <label for="expmonth">Exp Month</label>
-                  <input type="text" id="expmonth" name="expmonth" placeholder="Month">
-                  <div class="row">
-                    <div class="col-50">
-                      <label for="expyear">Exp Year</label>
-                      <input type="text" id="expyear" name="expyear" placeholder="Year">
-                    </div>
-                    <div class="col-50">
-                      <label for="cvv">CVV</label>
-                      <input type="text" id="cvv" name="cvv" placeholder="CVV">
+                  <select name="payment" id="paymentType" onchange="toggle()">
+                    <option value="paypal">Paypal</option>
+                    <option value="creditCard">Credit Card</option>
+                  </select>
+                  
+                  <div class="cc" id="cc" style="display:none">
+                    <label for="cname">Name on Card</label>
+                    <input type="text" id="cname" name="cardname" placeholder="Name As Written On Card">
+                    <label for="ccnum">Credit card number</label>
+                    <input type="text" id="ccnum" name="cardnumber" placeholder="Enter Card Number With Dashes">
+                    <label for="expmonth">Exp Month</label>
+                    <input type="text" id="expmonth" name="expmonth" placeholder="Month">
+                    <div class="row">
+                      <div class="col-50">
+                        <label for="expyear">Exp Year</label>
+                        <input type="text" id="expyear" name="expyear" placeholder="Year">
+                      </div>
+                      <div class="col-50">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" placeholder="CVV">
+                      </div>
                     </div>
                   </div>
-                </div>
 
-              </div>
-            </div>
-
-          <div id="aboveShipping">
-            <input type="submit" name="submit" value="Submit">
-          </div>
-          <br>
+                    <div id="aboveShipping">
+                      <input type="submit" name="submitBilling" value="Submit">
+                    </div>
+                    <br>
 
 
-          <div class="checkboxDiv">
-              <label for="shippingCheck">Shipping same as Billing<input type="checkbox" id="shippingCheck" onclick="checkFunction()" checked></label>
-              
-          </div>
+                  <div class="checkboxDiv">
+                      <label for="shippingCheck">Shipping same as Billing
+                      <input type="checkbox" id="shippingCheck" onclick="checkFunction()" checked></label>
+                      
+                  </div>
 
-              <div class="shippingaddress" id="shippingaddress" style="display:none">
-                <h3>Shipping Address If Different</h3>
-
-                  <label for="fname">First Name</label>
-                  <input type="text" id="fname" name="firstname:required" placeholder="First Name">
-                  <label for="lname">Last Name</label>
-                  <input type="text" id="fname" name="firstname:required" placeholder="Last Name">
-                  <label for="adr">Address</label>
-                  <input type="text" id="adr" name="address" placeholder="Address Here">
-                  <label for="city">City</label>
-                  <input type="text" id="city" name="city" placeholder="City Here">
-                  <label for="state">State</label>
-                  <input type="text" id="state" name="state" placeholder="State Here">
-                  <label for="zip">Zip</label>
-                  <input type="text" id="zip" name="zip" placeholder="Zip Here">
-                  <input type="submit" name="submit" value="Submit">
-              </div>
-
-
+                  <div class="shippingaddress" id="shippingaddress" style="display:none">
+                    <h3>Shipping Address If Different</h3>
+                    <label for="adr">Address</label>
+                    <input type="text" id="adr" name="shippingAddress" placeholder="Address Here">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="shippingCity" placeholder="City Here">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="shippingState" placeholder="State Here">
+                    <label for="zip">Zip</label>
+                    <input type="text" id="zip" name="shippingZip" placeholder="Zip Here">
+                    <label for="country">Country</label>
+                    <input type="text" name="shippingCountry" placeholder="Country Here">
+                    <input type="submit" name="submit" value="Submit">
+                  </div>
+                </form>
         </div>
       </div>
     </div>
-
+</div>
 <script>
   function toggle(){
     var cont = document.getElementById('cc');
