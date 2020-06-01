@@ -81,8 +81,9 @@
               </div>
             </div>
 
-
-          <input type="submit" name="submit" value="Submit">
+          <div id="aboveShipping">
+            <input type="submit" name="submit" value="Submit">
+          </div>
           <br>
 
 
@@ -106,7 +107,7 @@
                   <input type="text" id="state" name="state" placeholder="State Here">
                   <label for="zip">Zip</label>
                   <input type="text" id="zip" name="zip" placeholder="Zip Here">
-
+                  <input type="submit" name="submit" value="Submit">
               </div>
 
 
@@ -128,12 +129,15 @@
   function checkFunction(){
     var checkBox = document.getElementById("shippingCheck");
     var text = document.getElementById("shippingaddress");
+    let wrongBtn = document.getElementById("aboveShipping");
     if(checkBox.checked == true){
       text.style.display = "none";
+      wrongBtn.style.display = "block";
     }else{
       text.style.display = "block";
+      wrongBtn.style.display = "none";
     }
   }
 </script>
 
-  </main>
+</main>
