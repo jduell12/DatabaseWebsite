@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set('mysql', mysql);
 app.use('/', express.static('public'));
 app.use('/inventory.handlebars', require('./inventory.js'));
-app.use('/editItem.handlebars', require('./inventory.js'));
+app.use('/editItem.handlebars', require('./edit.js'));
 app.use('/order.handlebars', require('./order.js'));
 app.use('/customer.handlebars', require('./customer.js'));
 app.use('/addOrder.handlebars', require('./addOrder.js'))
@@ -48,6 +48,10 @@ app.post('/addItem', function(req, res, next){
 app.get('/editItem', function(req, res){
     res.render('editItem');
 });
+
+// app.post('/editItem', function(req, res, next){
+//     res.render('inventory');
+// });
 
 app.get('/order.handlebars', function(req, res){
     res.render('order');
@@ -130,8 +134,173 @@ app.get('/addCustomer.handlebars', function(req, res){
     res.render('addCustomer');
 });
 
-app.post('/addCustomer.handlebars', function(req, res){
+app.post('/addCustomer.handlebars', function(req, res, next){
+    let context = {};
+    console.log(req.body);
 
+    //adds new customer to customer table
+    if(req.body['submitBilling']){
+        if(req.body['payment'] == 'Paypal'){
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
+
+                    mysql.pool.query("INSERT INTO PayPal VALUES(?, ?);", [req.body.email, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+                });
+               });
+        } else /*payment is credit*/{
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
+
+                    let expDate = req.body.expmonth + '-'  + req.body.expyear;
+                    console.log(expDate);
+
+                    mysql.pool.query("INSERT INTO CreditCards VALUES(?, ?, ?, ?);", [req.body.cardnumber, expDate, req.body.cvv, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+                });
+               });
+        }
+     
+    }else /* different shipping address than billing address */ {
+        if(req.body['payment'] == 'Paypal'){
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
+
+                    mysql.pool.query("INSERT INTO PayPal VALUES(?, ?);", [req.body.email, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.shippingAddress, req.body.shippingCity, req.body.shippingState, req.body.shippingZip, req.body.shippingCountry, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+                });
+               });
+        } else /*payment is credit*/{
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
+
+                    let expDate = req.body.expmonth + '-'  + req.body.expyear;
+                    console.log(expDate);
+
+                    mysql.pool.query("INSERT INTO CreditCards VALUES(?, ?, ?, ?);", [req.body.cardnumber, expDate, req.body.cvv, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.shippingAddress, req.body.shippingCity, req.body.shippingState, req.body.shippingZip, req.body.shippingCountry, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+                });
+               });
+        }
+    }
+
+    res.redirect('/');
 });
 
 app.get('/addOrder.handlebars', function(req, res){

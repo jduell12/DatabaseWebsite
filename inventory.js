@@ -13,21 +13,7 @@ module.exports = function(){
         });
     }
 
-    /* Returns a list of one results */
-    function getItem(res, mysql, context, item_Num, complete){
-        let sql = "SELECT item_Num, item_Type, item_Name, item_Price, number_Items_In_Stock FROM Items WHERE item_Num = ?";
-        let inserts = [item_Num];
-        mysql.pool.query(sql, inserts, function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            context.item = results[0];
-            complete();
-        });
-    }
-
-    /* Displays all people. Requires web based javascript to delete users with Ajax */
+    /* Displays all items. Requires web based javascript to delete items with Ajax */
     router.get('/', function(req, res){
         let callBackCount = 0;
         let context = {};
@@ -44,18 +30,22 @@ module.exports = function(){
 
     /* The URI update data is sent to in order to update an item */
     router.put('/:item_Num', function(req, res){
-        let mysql = req.app.get('mysql');
-        let sql = "UPDATE Items SET item_Type=?, item_Name=?, item_Price=?, number_Items_In_Stock=? WHERE item_Num=?";
-        let inserts = [req.body.item_Type, req.body.item_Name, req.body.item_Price, req.body.number_Items_In_Stock, req.params.item_Num];
-        sql = mysql.pool.query(sql,inserts,function(error,results,fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }else{
-                res.status(200);
-                res.end();
-            }
-        });
+        let context = {};
+        console.log(req.params.item_Num);
+        context = req.params;
+        res.render('editItem', context);
+        // let mysql = req.app.get('mysql');
+        // let sql = "UPDATE Items SET item_Type=?, item_Name=?, item_Price=?, number_Items_In_Stock=? WHERE item_Num=?";
+        // let inserts = [req.body.item_Type, req.body.item_Name, req.body.item_Price, req.body.number_Items_In_Stock, req.params.item_Num];
+        // sql = mysql.pool.query(sql,inserts,function(error,results,fields){
+        //     if(error){
+        //         res.write(JSON.stringify(error));
+        //         res.end();
+        //     }else{
+        //         res.status(200);
+        //         res.end();
+        //     }
+        // });
     });
 
 
