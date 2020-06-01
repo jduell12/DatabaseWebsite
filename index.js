@@ -136,45 +136,79 @@ app.get('/addCustomer.handlebars', function(req, res){
 
 app.post('/addCustomer.handlebars', function(req, res, next){
     let context = {};
-    // console.log(req.body);
+    console.log(req.body);
 
     //adds new customer to customer table
     if(req.body['submitBilling']){
-       mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
-        if(err){
-            next(err);
-            return;
+        if(req.body['payment'] == 'paypal'){
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    })
+        
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, NULL);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("SELECT billing_Num FROM Billing_Addresses ORDER BY billing_Num DESC LIMIT 1;", function(err, results, fields){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+             
+                        context = results; 
+                        let billingNum = context[0].billing_Num;
+             
+                        mysql.pool.query("UPDATE Customers SET fk_billing_Num = ? WHERE customer_Num = ?", [billingNum, customerNum], function(err){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+                        });
+        
+                        mysql.pool.query("SELECT shipping_Num FROM Shipping_Addresses ORDER BY shipping_Num DESC LIMIT 1;", function(err, results, fields){
+                            if(err){
+                                next(err);
+                                return;
+                            }
+        
+                            context = results;
+                            let shippingNum = context[0].shipping_Num;
+        
+                            mysql.pool.query("UPDATE Shipping_Addresses SET fk_billing_Num = ? WHERE shipping_Num = ?", [billingNum, shippingNum], function(err){
+                                if(err){
+                                    next(err);
+                                    return;
+                                }
+                            })
+                        });
+                        
+                    })
+                })
+               })
+        } else {
+
         }
-
-        mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
-            if(err){
-                next(err);
-                return;
-            }
-            context = results; 
-            let customerNum = context[0].customer_Num
-
-            mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
-                if(err){
-                    next(err);
-                    return;
-                }
-            })
-
-            mysql.pool.query("SELECT billing_Num FROM Billing_Addresses ORDER BY billing_Num DESC LIMIT 1;", function(err, results, fields){
-                if(err){
-                    next(err);
-                    return;
-                }
      
-                context = results; 
-                console.log(context);
-                let billingNum = context[0].billing_Num;
-     
-                mysql.pool.query("UPDATE Customers SET fk_billing_Num = ? WHERE customer_Num = ?", [billingNum, customerNum]);
-            })
-        })
-       })
     }else {
         
     }
