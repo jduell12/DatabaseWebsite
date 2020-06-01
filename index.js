@@ -177,9 +177,46 @@ app.post('/addCustomer.handlebars', function(req, res, next){
                     });
                 });
                });
-               console.log("at end of paypal index.js");
-        } else {
+        } else /*payment is credit*/{
+            mysql.pool.query("INSERT INTO Customers VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);", [req.body.firstName, req.body.lastName, req.body.phone, 1, req.body.email, req.body.payment, req.body.dob], function(err){
+                if(err){
+                    next(err);
+                    return;
+                }
+        
+                mysql.pool.query("SELECT customer_Num FROM Customers ORDER BY customer_Num DESC LIMIT 1;", function(err, results, fields){
+                    if(err){
+                        next(err);
+                        return;
+                    }
+                    context = results; 
+                    let customerNum = context[0].customer_Num
 
+                    let expDate = req.body.expmonth + '-'  + req.body.expyear;
+                    console.log(expDate);
+
+                    mysql.pool.query("INSERT INTO CreditCards VALUES(?, ?, ?, ?);", [req.body.cardnumber, expDate, req.body.cvv, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+        
+                    mysql.pool.query("INSERT INTO Billing_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum ], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+
+                    mysql.pool.query("INSERT INTO Shipping_Addresses VALUES(NULL, ?, ?, ?, ?, ?, ?);", [req.body.address, req.body.city, req.body.state, req.body.zip, req.body.country, customerNum], function(err){
+                        if(err){
+                            next(err);
+                            return;
+                        }
+                    });
+                });
+               });
         }
      
     }else {
