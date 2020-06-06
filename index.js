@@ -101,7 +101,7 @@ app.post('/addOrder.handlebars', function(req, res, next){
             }
 
             context = results;
-            let order_Num = context[0].order_Num + 1;
+            let order_Num = context[0].order_Num;
 
             if(req.body.discount !== 0){
                 let percent = parseInt(req.body.discount[0])/100;
@@ -110,7 +110,7 @@ app.post('/addOrder.handlebars', function(req, res, next){
             }
 
             //inserts order items into order_items table
-            mysql.pool.query("INSERT INTO Order_Items VALUES(NULL, ?, ?, ?, 0, NULL, ?, ?);",[req.body.quant[0], req.body.discount[0], sellingPrice, order_Num, req.body.itemNum], function(err){
+            mysql.pool.query("INSERT INTO Order_Items VALUES(NULL, ?, ?, ?, 0, NULL, ?, ?);",[req.body.quant[0], req.body.discount[0], sellingPrice, order_Num, req.body.item_Num], function(err){
                 if(err){
                     next(err);
                     return;
@@ -119,7 +119,7 @@ app.post('/addOrder.handlebars', function(req, res, next){
         })
     });
 
-    res.redirect('/order.handlebars');
+    res.redirect('/');
 });
 
 // app.get('/orderItems.handlebars', function(req, res){

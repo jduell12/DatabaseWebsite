@@ -46,7 +46,7 @@
           {{#each items}}
           <div class="row">
             <div class="col">
-              <input type="checkbox" name="item_Num" value={{item_Num}}>
+              <input type="checkbox" id="check1" name="item_Num" value={{item_Num}}>
             </div>
             <div class="col"> 
               <span>{{item_Name}}</span>
@@ -61,7 +61,7 @@
               <span>$</span><span>{{item_Price}}</span>
             </div>
             <div class="col">
-              <input name="discount" type="number" min=0 step="1">
+              <input name="discount" type="number" min=0 step="1" value=0>
             </div>
           </div>
           {{/each}}
