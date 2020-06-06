@@ -2,7 +2,9 @@
   <div class="outside">
   <!--Main Layout-->
   <main>
+
     <!-- Main Navigation-->
+  
     <header>
       <div class="link">
         <a href="/">Home</a>
@@ -49,8 +51,8 @@
             {{/if}}
             <th>
               <button onclick="window.location.href='/orderItems'" hidden>See Order</button>
-              <button id="editBtn">Edit</button>
-              <button id="deleteBtn">Delete</button>
+              <button onclick="editOrder({{order_Num}})">Edit</button>
+              <button onclick="deleteOrder({{order_Num}})">Delete</button>
             </th>
           </tr>
           {{/each}}

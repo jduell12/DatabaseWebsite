@@ -2,7 +2,9 @@
 <div class="outside">
 <!--Main Layout-->
 <main>
+
 <!-- Main Navigation-->
+
 <header>
 <div class="link">
     <a href="/">Home</a>
@@ -48,8 +50,8 @@
             <td>{{email}}</td>
             <td>{{preferred_Payment_Type}}</td>
             <th>
-              <button id="editBtn">Edit</button>
-              <button id="deleteBtn">Delete</button>
+              <button onclick="editCustomer({{customer_Num}})">Edit</button>
+              <button onclick="deleteCustomer({{customer_Num}})">Delete</button>
             </th>
           </tr>
           {{/each}}
