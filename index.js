@@ -119,7 +119,8 @@ app.post('/addOrder.handlebars', function(req, res, next){
         })
     });
 
-    res.redirect('/order.handlebars');
+    res.redirect('/');
+    res.redirect('order');
 });
 
 // app.get('/orderItems.handlebars', function(req, res){
