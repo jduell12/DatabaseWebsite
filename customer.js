@@ -45,6 +45,7 @@ module.exports = function(){
                 res.status(202).end();
             }
         })
+        res.render('customer.handlebars');
     });
 
     return router;
