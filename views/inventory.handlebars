@@ -23,7 +23,21 @@
 
     <section class="tableWrapper">
       <h2>Current Inventory</h2>
-      <input type="text" id="myInput" onkeyup="mySearchFunction()" placeholder="Search for Inventory Type.." title="Type in a name">
+      <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+
+      <div>
+        {{#if item}}
+          <h1>Update {{item_Num}} {{item_Name}} {{item_Type}}</h1>
+          <form id="update-item" method="post">
+            Item Name: <input type="text" name="item_Name" value="{{items.item_Name}}"><br>
+            Item Type: <input type="text" name="item_Type" value="{{items.item_Type}}"><br>
+            Item Price: <input type="text" name="item_Price" value="{{items.item_Price}}"><br>
+            Items in Stock: <input type="text" name="number_Items_In_Stock" value="{{items.number_Items_In_Stock}}"><br>
+          </form>
+          <button onclick="updateItem({{item.item_Num}})">Update</button>
+        {{/if}}
+      </div>
+
       <table>
          <tr class="tableHeader">
           <th>Item</th>
@@ -50,5 +64,4 @@
       <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
   </div>
-
   </main>

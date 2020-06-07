@@ -28,25 +28,27 @@ module.exports = function(){
         }
     });
 
-    /* The URI update data is sent to in order to update an item */
     router.put('/:item_Num', function(req, res){
         let context = {};
-        console.log(req.params.item_Num);
-        context = req.params;
-        res.render('editItem', context);
-        // let mysql = req.app.get('mysql');
-        // let sql = "UPDATE Items SET item_Type=?, item_Name=?, item_Price=?, number_Items_In_Stock=? WHERE item_Num=?";
-        // let inserts = [req.body.item_Type, req.body.item_Name, req.body.item_Price, req.body.number_Items_In_Stock, req.params.item_Num];
-        // sql = mysql.pool.query(sql,inserts,function(error,results,fields){
-        //     if(error){
-        //         res.write(JSON.stringify(error));
-        //         res.end();
-        //     }else{
-        //         res.status(200);
-        //         res.end();
-        //     }
-        // });
-    });
+        let callBackCount = 0;
+        let itemNum = req.params.item_Num;
+        let mysql = req.app.get('mysql');
+        let sql = 'SELECT * FROM Items WHERE item_Num = ?';
+
+        console.log(`itemNum: ${itemNum}`);
+
+        mysql.pool.query(sql, itemNum, function(err, results, fields){
+            if(err){
+                res.write(JSON.stringify.err);
+                res.end();
+            }
+            context.item = results;
+            console.log(`in router put`);
+            console.log(context);
+
+            res.render('inventory.handlebars', context);
+        })
+    })
 
 
     /* Route to delete item from database, returns 202 upon success. Ajax will handle this. */
@@ -60,7 +62,7 @@ module.exports = function(){
                 res.status(400);
                 res.end();
             }else{
-                res.status(202).end();
+                res.render('inventory');
             }
         })
     });
