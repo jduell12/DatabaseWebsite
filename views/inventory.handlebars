@@ -23,7 +23,7 @@
 
     <section class="tableWrapper">
       <h2>Current Inventory</h2>
-      <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+      <input type="text" id="myInput" onkeyup="mySearchFunction()" placeholder="Search for Inventory Type.." title="Type in a name">
       <table>
          <tr class="tableHeader">
           <th>Item</th>
@@ -50,4 +50,5 @@
       <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
   </div>
+
   </main>

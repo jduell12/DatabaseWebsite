@@ -312,5 +312,5 @@ app.post('/addOrder.handlebars', function(req, res){
 });
 
 app.listen(port, function(){
-    console.log(`App listening to port ${port}`);
+    console.log(`App listening to port ${port}, Ctrl+C to exit`);
 });
