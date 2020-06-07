@@ -40,7 +40,7 @@ module.exports = function(){
                 res.status(400);
                 res.end();
             }else{
-                res.status(202).end();
+                res.render('order');
             }
         })
     });
