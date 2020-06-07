@@ -23,7 +23,7 @@
 
     <section class="tableWrapper">
       <h2>Current Inventory</h2>
-      <input type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+      <input class="search" type="text" id="myInput" placeholder="'Quick Search' Enter your search criteria ...">
 
       <div>
         {{#if item}}
@@ -45,7 +45,7 @@
           <th>Price</th>
           <th>Number in Stock</th>
         </tr>
-        <tbody>
+        <tbody id="myTable">
           {{#each items}}
           <tr>
             <td hidden name='item_Num'>{{item_Num}}</td>
@@ -64,4 +64,16 @@
       <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
   </div>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
   </main>

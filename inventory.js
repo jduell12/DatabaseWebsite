@@ -17,7 +17,7 @@ module.exports = function(){
     router.get('/', function(req, res){
         let callBackCount = 0;
         let context = {};
-        context.jsscripts = ["deleteItem.js", "editItem.js", "mySearchFunction.js"];
+        context.jsscripts = ["deleteItem.js", "editItem.js"];
         let mysql = req.app.get('mysql');
         getItems(res, mysql, context, complete);
         function complete(){
