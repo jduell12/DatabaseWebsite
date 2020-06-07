@@ -127,8 +127,6 @@ app.get('/addCustomer.handlebars', function(req, res){
 
 app.post('/addCustomer.handlebars', function(req, res, next){
     let context = {};
-    console.log(req.body);
-
     //adds new customer to customer table
     if(req.body['submitBilling']){
         if(req.body['payment'] == 'Paypal'){
