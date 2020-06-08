@@ -5,8 +5,6 @@ let tableInfo = {
         {'id': 'item_Type', 'type':'text'},
         {'id': 'item_Price', 'type': 'number'},
         {'id': 'number_Items_In_Stock', 'type': 'number'},
-        {'id': 'actions', 'edit': editItem},
-        {'id': 'actions', 'delete': deleteItem}
     ],
     'columnHeader': ['Item', 'Type', 'Price', 'Number in Stock'],
     'data': [],
@@ -42,7 +40,6 @@ function httpRequest(method, route, data){
 
 function updateTable(result){
     let data = JSON.parse(result.responseText).payload;
-    console.log(data);
     tableInfo['data'] = data;
     generateTable(tableInfo);
 }
@@ -57,40 +54,34 @@ function generateTable(tableData){
     console.log(tableData);
 
     let headerArray = tableData['columnHeader']
+    let colomnOrderArray = tableData['columnOrder'];
     let dataArray = tableData['data'];
 
     headerArray.forEach((item, index) => {
         let column = document.createElement('th');
         column.textContent = tableData['columnHeader'][index];
-        console.log(column);
         header.appendChild(column);
     })
 
-    for(let i = 0; i < tableData['data'].length; i++){
+    for(let i = 0; i < dataArray.length; i++){
         let row = document.createElement('tr');
         let id = tableData['data'][i][tableData['columnOrder'][0]['id']];
-        for(let j = 0; j < tableData['columnOrder'].legnth; j++){
+        let rowNum = 0;
+
+        for(let j = 0; j < colomnOrderArray.length; j++){
             let key = tableData['columnOrder'][j]['id'];
             let cell = document.createElement('td');
             cell.id = key + '-' + id;
             cell.textContent = key == 'actions' ? '': tableData['data'][i][key];
-            if(key == 'actions'){
-                if(tableData['columnOrder'][j]['edit']){
-                    let editButton = document.createElement('button');
-                    editButton.textContent = "Edit";
-                    editButton.addEventListener('click', editItem.bind(this, id, tableData['columnOrder'][j]['edit'], tableData['columnOrder']), false);
-                    cell.appendChild(editButton);
-                }
-                if(tableData['columnOrder'][j]['delete']){
-                    let deleteButton = document.createElement('button');
-                    deleteButton.textContent = "Delete";
-                    deleteButton.addEventListener('click', deleteItem.bind(this, id, tableData['columnOrder'][j]['route'], tableData['columnOrder'][j]['delete']), false);
-                    cell.appendChild(deleteButton);
-                }
+
+            if(j == 0){
+                cell.style.display = "none";
             }
             row.appendChild(cell);
+            rowNum++;
 
         }
+        
         body.appendChild(row);
     }
     table.appendChild(header);
