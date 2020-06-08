@@ -3,28 +3,27 @@ const app = express();
 const port = 8766;
 const handlebars = require('express-handlebars').create({defaultLayout: 'index'});
 const helpers = require('handlebars-helpers')();
+const path = require('path');
 
 const mysql = require('./dbcon.js');
 const bodyParser = require('body-parser');
 
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '/public')));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.set('mysql', mysql);
 app.use('/', express.static('public'));
-app.use('/inventory.handlebars', require('./inventory.js'));
-app.use('/order.handlebars', require('./order.js'));
-app.use('/customer.handlebars', require('./customer.js'));
-app.use('/addOrder.handlebars', require('./addOrder.js'))
-// app.use('/orderItems.handlebars', require('./orderItems.js'));
+
+//set routes in the form of page_name/api
+app.use('/inventory/api', require('./routes/inventory'));
 
 app.get('/', function(req, res){
     res.render('main');
 });
 
-app.get('/inventory.handlebars', function(req, res){
+app.get('/inventory', function(req, res){
     res.render('inventory');
 });
 
@@ -45,7 +44,7 @@ app.post('/addItem', function(req, res, next){
     res.redirect('/inventory.handlebars');
 });
 
-app.get('/order.handlebars', function(req, res){
+app.get('/order', function(req, res){
     res.render('order');
 });
 
@@ -118,7 +117,7 @@ app.post('/addOrder.handlebars', function(req, res, next){
 //     res.render('orderItems');
 // })
 
-app.get('/customer.handlebars', function(req, res){
+app.get('/customer', function(req, res){
     res.render('customer');
 });
 

@@ -14,10 +14,10 @@
         <a href="">Manage Inventory</a>
       </div>
       <div class="link">
-        <a href="order.handlebars">Manage Orders</a>
+        <a href="/order">Manage Orders</a>
       </div>
       <div class="link">
-        <a href="customer.handlebars">Manage Customers</a>
+        <a href="/customer">Manage Customers</a>
       </div>
     </header>
 
@@ -25,41 +25,7 @@
       <h2>Current Inventory</h2>
       <input class="search" type="text" id="myInput" placeholder="'Quick Search' Enter your search criteria ...">
 
-      <div>
-        {{#if item}}
-          <h1>Update {{item_Num}} {{item_Name}} {{item_Type}}</h1>
-          <form id="update-item" method="post">
-            Item Name: <input type="text" name="item_Name" value="{{items.item_Name}}"><br>
-            Item Type: <input type="text" name="item_Type" value="{{items.item_Type}}"><br>
-            Item Price: <input type="text" name="item_Price" value="{{items.item_Price}}"><br>
-            Items in Stock: <input type="text" name="number_Items_In_Stock" value="{{items.number_Items_In_Stock}}"><br>
-          </form>
-          <button onclick="updateItem({{item.item_Num}})">Update</button>
-        {{/if}}
-      </div>
-
-      <table>
-         <tr class="tableHeader">
-          <th>Item</th>
-          <th>Type</th>
-          <th>Price</th>
-          <th>Number in Stock</th>
-        </tr>
-        <tbody id="myTable">
-          {{#each items}}
-          <tr>
-            <td hidden name='item_Num'>{{item_Num}}</td>
-            <td name='item_Type'>{{item_Type}}</td>
-            <td>{{item_Name}}</td>
-            <td>{{item_Price}}</td>
-            <td>{{number_Items_In_Stock}}</td>
-            <th>
-              <button onclick="editItem({{item_Num}})">Edit</button>
-              <button onclick="deleteItem({{item_Num}})">Delete</button>
-            </th>
-          </tr>
-          {{/each}}
-        </tbody>
+      <table id="table-body" class="table">
       </table>
       <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
@@ -75,5 +41,5 @@ $(document).ready(function(){
   });
 });
 </script>
-
 </main>
+<script src="scripts/inventory.js"></script>
