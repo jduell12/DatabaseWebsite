@@ -51,19 +51,18 @@ app.get('/order.handlebars', function(req, res){
 
 app.post('/addOrder.handlebars', function(req, res, next){
     let context = {};
-    
     //gets customer name and id from html and inserts new order in Orders table
-    mysql.pool.query("SELECT customer_Num, preferred_Payment_Type FROM Customers WHERE first_name = ? AND last_Name = ?;", [req.body.firstName, req.body.lastName], function(error, results, fields){
+    mysql.pool.query("SELECT preferred_Payment_Type FROM Customers WHERE customer_Num = ?;", [req.body.customerName], 
+    function(error, results, fields){
         if(error){
             res.write(JSON.stringify(error));
             res.end();
         }
 
         context = results;
-        let custId = context[0].customer_Num;
         let payment = context[0].preferred_Payment_Type;
         
-        mysql.pool.query("INSERT INTO Orders VALUES (NULL, ?, ?, 0, 0, ?);", [req.body.oDate, payment, custId], function(err){
+        mysql.pool.query("INSERT INTO Orders VALUES (NULL, ?, ?, 0, 0, ?);", [req.body.oDate, payment, req.body.customerName], function(err){
             if (err) {
                 next(err);
                 return;
