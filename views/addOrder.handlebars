@@ -20,18 +20,26 @@
     <section  class="formWrapper">
       <h2>Form for a New Order</h2>
       <form method="post", class="orderForm">
+
         <div class="orderDate">
           <label for="oDate">Order Date (Format: yyyy-mm-dd)</label><br>
           <input name="oDate" type="text">
         </div>
-        <div class="name">
-          <label for="firstName">First Name</label><br>
-          <input type="text" name="firstName"> 
+
+
+
+        <div class="customerName">
+          <label for="customerName">Customer Name <em>*(required)</em></label><br>
+          <select name="customerName" id="customerName" required>
+            <option disabled selected value> -- Select Customer -- </option>
+            {{#each customers}}
+            <option value="{{first_Name}}">{{first_Name}} {{last_Name}}</option>
+            {{/each}}
+          </select>
         </div>
-        <div class="name">
-          <label for="lastName">Last Name</label><br>
-          <input type="text" name="lastName">
-        </div>
+
+
+
         <div class="orderItems">
           <div class="row">
             <div class="col">
