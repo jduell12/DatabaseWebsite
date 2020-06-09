@@ -18,6 +18,7 @@ app.use('/', express.static('public'));
 
 //set routes in the form of page_name/api
 app.use('/inventory/api', require('./routes/inventory'));
+app.use('/addItem/api', require('./routes/addItemRoute'));
 
 app.get('/', function(req, res){
     res.render('main');
@@ -29,19 +30,6 @@ app.get('/inventory', function(req, res){
 
 app.get('/addItem', function(req, res){
     res.render('addItem');
-});
-
-app.post('/addItem', function(req, res, next){
-    if(req.body['Submit']){
-        mysql.pool.query("INSERT INTO Items VALUES (NULL, ?, ?, ?, ?);", [req.body.itemType, req.body.itemName, req.body.price, req.body.quantity], function(err){
-            if (err) {
-                next(err);
-                return;
-            }
-        });
-    }
-    res.redirect('/inventory.handlebars');
-    res.redirect('/inventory.handlebars');
 });
 
 app.get('/order', function(req, res){

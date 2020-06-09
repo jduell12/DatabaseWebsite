@@ -64,20 +64,21 @@ function generateTable(tableData){
         //creates delete button
         let deleteButton = document.createElement('button');
         deleteButton.textContent = "Delete";
-        deleteButton.addEventListener('click', deleteItem.bind(this, id, tableInfo['columnOrder'][rowNum]['delete'], tableInfo['columnOrder']), false);
+        deleteButton.setAttribute('id', 'delete-' + id);
+        deleteButton.addEventListener('click', deleteItem.bind(this, id));
         row.appendChild(deleteButton);
 
         //creates edit button
         let editButton = document.createElement('button');
         editButton.textContent = "Edit";
-        editButton.setAttribute('id', 'edit');
+        editButton.setAttribute('id', 'edit-' + id);
         editButton.addEventListener('click', editItem.bind(this, id, tableInfo['columnOrder'][rowNum]['edit'], tableInfo['columnOrder']), false);
         row.appendChild(editButton);
 
         //creates hidden update button
         let update = document.createElement('button');
         update.textContent = "Update";
-        update.setAttribute('id', 'update');
+        update.setAttribute('id', 'update-' + id);
         update.addEventListener('click', updateItem.bind(this, id));
         update.style.display = "none";
         row.appendChild(update);
@@ -107,10 +108,10 @@ function editItem(id, callback, rowOrder){
         }
     });
 
-    let editButton = document.getElementById('edit');
+    let editButton = document.getElementById('edit-' + id);
     editButton.style.display = 'none';
 
-    let updateButton = document.getElementById('update');
+    let updateButton = document.getElementById('update-' + id);
     updateButton.style.display = 'inline';
 
  
@@ -128,6 +129,12 @@ function updateItem(id){
         }
     }
 
+    let editButton = document.getElementById('edit-' + id);
+    editButton.style.display = 'inline';
+
+    let updateButton = document.getElementById('update-' + id);
+    updateButton.style.display = 'none';
+
     let putRequest = httpRequest('PUT', '/inventory/api', context);
 
     putRequest.then(function(result){
@@ -137,9 +144,17 @@ function updateItem(id){
     })
 }
 
-function deleteItem(id, route, callback){
-    let deleteRequest = httpRequest('DELETE', route, {'id': id});
-    deleteRequest.then(callback);
+function deleteItem(id){
+    let data = {};
+    data.id = id;
+    let deleteRequest = httpRequest('DELETE', '/inventory/api', data);
+
+    deleteRequest.then(function(result){
+        updateTable(result);
+    }).catch(function(err){
+        console.log(err);
+    })
+
 }
 
 function pageInit(){

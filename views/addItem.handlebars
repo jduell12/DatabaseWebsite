@@ -8,18 +8,18 @@
         <a href="/">Home</a>
       </div>
       <div class="link">
-        <a href="inventory.handlebars">Manage Inventory</a>
+        <a href="inventory">Manage Inventory</a>
       </div>
       <div class="link">
-        <a href="order.handlebars">Manage Orders</a>
+        <a href="order">Manage Orders</a>
       </div>
       <div class="link">
-        <a href="customer.handlebars">Manage Customers</a>
+        <a href="customer">Manage Customers</a>
       </div>
     </header>
     <section  class="formWrapper">
       <h2>Add Item to Inventory</h2>
-      <form method="post" ,class="orderForm">
+      <form class="orderForm">
           <div class="row">
             <h2>Item Type</h2>
             <h2>Item Name</h2>
@@ -28,20 +28,21 @@
           </div>
           <div class="row">
             <div class="col"> 
-              <span>1.</span><input type="text" name="itemType"> 
+              <span>1.</span><input id="item_Type" type="text" name="itemType"> 
             </div>
             <div class="col">
-                <input type="text" name="itemName"> 
+                <input id="item_Name" type="text" name="itemName"> 
             </div>
             <div class="col">
-              <span>$</span><input type="number" min=0 step="0.01" name="price">
+              <span>$</span><input id="price" type="number" min=0 step="0.01" name="price">
             </div>
             <div class="col">
-              <input type="number" min=0 step="1" name="quantity">
+              <input id="quantity" type="number" min=0 step="1" name="quantity">
             </div>
           </div>
-        <input  class = "submit" type="submit" name="Submit" value=Submit>
+        <button id="submit">Submit</button>
       </form>
     </section> 
   </div>
   </main>
+  <script src="scripts/addItem.js"></script>
