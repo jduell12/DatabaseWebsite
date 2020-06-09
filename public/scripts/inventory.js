@@ -21,23 +21,6 @@ function getAllItems(){
     })
 };
 
-function httpRequest(method, route, data){
-    return new Promise(function(resolve, reject){
-        let req = new XMLHttpRequest();
-        req.open(method, route, true);
-        req.setRequestHeader('Content-Type', 'application/json');
-        req.send(JSON.stringify(data));
-        event.preventDefault();
-        req.addEventListener('load', function(){
-            if(req.status >= 200 && req.status < 400){
-                resolve(req);
-            }else {
-                reject(req);
-            }
-        })
-    })
-}
-
 function updateTable(result){
     let data = JSON.parse(result.responseText).payload;
     tableInfo['data'] = data;
@@ -49,9 +32,6 @@ function generateTable(tableData){
     let header = document.createElement('thead');
     let body = document.createElement('tbody');
     table.innerHTML = "";
-
-    console.log(`tableInfo`);
-    console.log(tableData);
 
     let headerArray = tableData['columnHeader']
     let colomnOrderArray = tableData['columnOrder'];
@@ -66,6 +46,7 @@ function generateTable(tableData){
     for(let i = 0; i < dataArray.length; i++){
         let row = document.createElement('tr');
         let id = tableData['data'][i][tableData['columnOrder'][0]['id']];
+        row.setAttribute('id', id);
         let rowNum = 0;
 
         for(let j = 0; j < colomnOrderArray.length; j++){
@@ -78,11 +59,31 @@ function generateTable(tableData){
                 cell.style.display = "none";
             }
             row.appendChild(cell);
-            rowNum++;
-
         }
-        
+
+        //creates delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener('click', deleteItem.bind(this, id, tableInfo['columnOrder'][rowNum]['delete'], tableInfo['columnOrder']), false);
+        row.appendChild(deleteButton);
+
+        //creates edit button
+        let editButton = document.createElement('button');
+        editButton.textContent = "Edit";
+        editButton.setAttribute('id', 'edit');
+        editButton.addEventListener('click', editItem.bind(this, id, tableInfo['columnOrder'][rowNum]['edit'], tableInfo['columnOrder']), false);
+        row.appendChild(editButton);
+
+        //creates hidden update button
+        let update = document.createElement('button');
+        update.textContent = "Update";
+        update.setAttribute('id', 'update');
+        update.addEventListener('click', updateItem.bind(this, id));
+        update.style.display = "none";
+        row.appendChild(update);
+
         body.appendChild(row);
+        rowNum++;
     }
     table.appendChild(header);
     table.appendChild(body);
@@ -91,52 +92,54 @@ function generateTable(tableData){
 }
 
 function editItem(id, callback, rowOrder){
-    for(let i = 0; i < rowOrder.legnth; i++){
-        if(!rowOrder[i]['readonly']){
-            let key = rowOrder[i]['id'];
-            let element = document.getElementById(`${key}-${id}`);
-            let value = element.textContent || '';
+
+    rowOrder.forEach(item => {
+        if(item['id'] !== 'item_Num'){
+            let element = document.getElementById(item['id'] + '-' + id);
+            let value = element.textContent || "";
             element.innerHTML = "";
 
-            if(key != 'actions'){
-                let input = document.createElement('input');
-                input.setAttribute('type', rowOrder[i]['type']);
-                input.setAttribute('value', rowOrder[i]['type'][value]);
-                input.setAttribute('id', `${key}-${id}-input`);
-                element.appendChild(input);
-            } else {
-                let button = document.createElement('button');
-                button.textContent = 'Update';
-                button.addEventListener('click', callback.bind(this, id), false);
-                element.appendChild(button);
-            }
+            let input = document.createElement('input');
+            input.setAttribute('type', item['type']);
+            input.setAttribute('id', item['id'] + '-' + id + '-input');
+            input.setAttribute('value', value);
+            element.appendChild(input);
+        }
+    });
+
+    let editButton = document.getElementById('edit');
+    editButton.style.display = 'none';
+
+    let updateButton = document.getElementById('update');
+    updateButton.style.display = 'inline';
+
+ 
+}
+
+function updateItem(id){
+    let context = {};
+    context['id'] = id;
+    
+    for(let i = 0; i < tableInfo['columnOrder'].length; i++){
+        let key = tableInfo['columnOrder'][i]['id'];
+        if(key !== 'item_Num'){
+            let element = document.getElementById(key + '-' + id + '-input');
+            context[key] = element.value; 
         }
     }
+
+    let putRequest = httpRequest('PUT', '/inventory/api', context);
+
+    putRequest.then(function(result){
+        updateTable(result);
+    }).catch(function(err){
+        console.log(err);
+    })
 }
 
 function deleteItem(id, route, callback){
     let deleteRequest = httpRequest('DELETE', route, {'id': id});
     deleteRequest.then(callback);
-}
-
-function updateInventory(id){
-    let data = {};
-    data['id'] = id;
-    for(let i = 0; i < tableInfo['columnOrder'].length; i++){
-        let key = tableInfo['columnOrder'][i]['id'];
-        let isReadOnly = tableInfo['columnOrder'][i]['readonly'];
-
-        if(key != actions && !isReadOnly){
-            let element = document.getElementById(`${key}-${id}-input`);
-            data[key] = element.value;
-        }
-    }
-    let putRequest = httpRequest('PUT', '/inventory/api', data);
-    putRequest.then(function(result){
-        updateTable(result);
-    }).catch(function(err){
-        console.log(`Err: ${err}`);
-    })
 }
 
 function pageInit(){

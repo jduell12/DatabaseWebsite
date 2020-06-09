@@ -12,6 +12,22 @@ router.route('/')
             res.json({'payload': results});
         })
     })
+    .put(function(req, res){
+        mysql.pool.query('UPDATE Items SET item_Type = ?, item_Name = ?, item_Price = ?, number_Items_In_Stock = ? WHERE item_Num = ?;', [req.body.item_Type, req.body.item_Name, req.body.item_Price, req.body.number_Items_In_Stock, req.body.id], function(err){
+            if(err){
+                res.write(JSON.stringify(err));
+                res.end();
+            }
+            mysql.pool.query("SELECT * FROM Items",function(err, results){
+                if(err){
+                    res.write(JSON.stringify(err));
+                    res.end();
+                }
+                console.log(results);
+                res.json({'payload': results});
+            })
+        });
+    })
 
 module.exports = router;
 

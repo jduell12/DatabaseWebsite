@@ -119,16 +119,13 @@ p{
 
 /*Inventory Styles*/
 /*table styles*/
-#myInput {
-  width: 90%;
-  font-size: 1.6rem;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
 
 .tableWrapper{
   text-align: center;
+}
+
+table{
+  width: 100%;
 }
 
 .tableWrapper h2{
@@ -150,6 +147,7 @@ button{
 
 td{
   font-size: 1.5rem;
+  width: 20%;
 }
 
 
