@@ -92,7 +92,9 @@ function generateTable(tableData){
     table.appendChild(header);
     table.appendChild(body);
 
-    getSearchBar();
+    if(!document.getElementById('search')){
+        getSearchBar();
+    }
 }
 
 function editItem(id, callback, rowOrder){
@@ -169,12 +171,13 @@ function getSearchBar(){
 
     let searchBar = document.createElement('input');
     searchBar.setAttribute('type', 'text');
+    searchBar.setAttribute('id', 'search');
     searchBar.placeholder = "Search for Items"
 
     searchBar.addEventListener('keyup', event => {
         let value = event.target.value;
         value = value.toUpperCase();
-        
+
         tableRows.forEach(row => {
             let td = row.childNodes;
             let tdArray = Array.from(td);
