@@ -150,7 +150,7 @@ button{
 
 td{
   font-size: 1.5rem;
-  width: 18%;
+  width:18%;
 }
 
 
@@ -226,10 +226,6 @@ label {
 
 .btn:hover {
   background-color: #45a049;
-}
-
-td{
-  padding: 1%;
 }
 
 #checkbox-1{
@@ -315,6 +311,7 @@ input{
 }
 
 #search{
-  width: 100%;
+  width: 80%;
+  justify-self: center;
   display: block;
 }
