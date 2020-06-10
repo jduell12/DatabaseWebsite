@@ -19,56 +19,24 @@
     </header>
     <section  class="formWrapper">
       <h2>Form for a New Order</h2>
-      <form method="post", class="orderForm">
+      <form class="orderForm">
         <div class="orderDate">
-          <label for="oDate">Order Date (Format: yyyy-mm-dd)</label><br>
-          <input name="oDate" type="text">
+          <label for="oDate">Order Date </label><br>
+          <input id="date" name="oDate" type="date">
         </div>
-        <div class="name">
-          <label for="firstName">First Name</label><br>
-          <input type="text" name="firstName"> 
-        </div>
-        <div class="name">
-          <label for="lastName">Last Name</label><br>
-          <input type="text" name="lastName">
+        <div>
+          <label for='customer'>Customer Placing Order</label>
+          <select id="customer"></select>
         </div>
         <div class="orderItems">
-          <div class="row">
-            <div class="col">
-              <h2 hidden>Checkbox</h2>
-            </div>
-            <h2>Item</h2>
-            <h2>Item Type</h2>
-            <h2>Quantity</h2>
-            <h2>Price</h2>
-            <h2>Discount</h2>
-          </div>
-          {{#each items}}
-          <div class="row">
-            <div class="col">
-              <input type="checkbox" id="check1" name="item_Num" value={{item_Num}}>
-            </div>
-            <div class="col"> 
-              <span>{{item_Name}}</span>
-            </div>
-            <div class="col">
-              <span name="item_Type">{{item_Type}}</span>
-            </div>
-            <div class="col">
-              <input name="quant" type="number" min=0 step="1">
-            </div>
-            <div class="col">
-              <span>$</span><span>{{item_Price}}</span>
-            </div>
-            <div class="col">
-              <input name="discount" type="number" min=0 step="1" value=0>
-            </div>
-          </div>
-          {{/each}}
+         <table id="table-body">
+
+         </table>
           <p>Discount is a percentage as a whole number. So if the discount is 50% input 50</p>
         </div>
-          <input  class = "submit" type="submit" name="Submit" value=Submit>
+          <button id="submit">Submit</button>
       </form>
     </section> 
   </div>
   </main>
+  <script src="scripts/addOrder.js"></script>

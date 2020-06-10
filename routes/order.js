@@ -4,7 +4,7 @@ let mysql = require('../dbcon');
 
 router.route('/')
     .get(function(req, res){
-        mysql.pool.query("SELECT * FROM Orders INNER JOIN Customers ON Orders.fk_customer_Num = Customers.customer_Num;", function(error, results, fields){
+        mysql.pool.query("SELECT * FROM Orders INNER JOIN Customers ON Orders.fk_customer_Num = Customers.customer_Num;", function(error, results){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();

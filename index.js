@@ -20,6 +20,8 @@ app.use('/', express.static('public'));
 app.use('/inventory/api', require('./routes/inventory'));
 app.use('/addItem/api', require('./routes/addItemRoute'));
 app.use('/order/api', require('./routes/order'));
+app.use('/addOrder/api', require('./routes/addOrder'));
+app.use('/customer/api', require('./routes/customer'));
 
 app.get('/', function(req, res){
     res.render('main');
@@ -37,74 +39,9 @@ app.get('/order', function(req, res){
     res.render('order');
 });
 
-app.post('/addOrder.handlebars', function(req, res, next){
-    let context = {};
-    
-    //gets customer name and id from html and inserts new order in Orders table
-    mysql.pool.query("SELECT customer_Num, preferred_Payment_Type FROM Customers WHERE first_name = ? AND last_Name = ?;", [req.body.firstName, req.body.lastName], function(error, results, fields){
-        if(error){
-            res.write(JSON.stringify(error));
-            res.end();
-        }
-
-        context = results;
-        let custId = context[0].customer_Num;
-        let payment = context[0].preferred_Payment_Type;
-        
-        mysql.pool.query("INSERT INTO Orders VALUES (NULL, ?, ?, 0, 0, ?);", [req.body.oDate, payment, custId], function(err){
-            if (err) {
-                next(err);
-                return;
-            }
-        });
-
-    });
-
-    //gets item price that was selected from html form and creates new order item in Order_Items table
-    
-    mysql.pool.query("SELECT item_Price FROM Items WHERE item_Num = ?;", [req.body.item_Num], function(err, results, fields){
-        if(err){
-            res.write(JSON.stringify(err));
-            res.end();
-        }
-
-        context = results;
-        let itemPrice = context[0].item_Price;
-        let sellingPrice = itemPrice;
-
-        
-        //gets order Num from order created above
-        mysql.pool.query("SELECT order_Num from Orders ORDER BY order_Num DESC LIMIT 1;", function(err, results, fields){
-            if(err){
-                next(err);
-                return;
-            }
-
-            context = results;
-            let order_Num = context[0].order_Num;
-
-            if(req.body.discount !== 0){
-                let percent = parseInt(req.body.discount[0])/100;
-                sellingPrice = (sellingPrice - (sellingPrice * percent));
-                sellingPrice = sellingPrice.toFixed(2);
-            }
-
-            //inserts order items into order_items table
-            mysql.pool.query("INSERT INTO Order_Items VALUES(NULL, ?, ?, ?, 0, NULL, ?, ?);",[req.body.quant[0], req.body.discount[0], sellingPrice, order_Num, req.body.item_Num], function(err){
-                if(err){
-                    next(err);
-                    return;
-                }
-            })
-        })
-    });
-
-    res.redirect('/');
+app.get('/addOrder', function(req, res){
+    res.render('addOrder');
 });
-
-// app.get('/orderItems.handlebars', function(req, res){
-//     res.render('orderItems');
-// })
 
 app.get('/customer', function(req, res){
     res.render('customer');

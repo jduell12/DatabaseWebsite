@@ -283,34 +283,17 @@ label{
   margin: 2%;
 }
 
-
-.name{
-  margin: 5%;
-  text-align: left;
-}
-
 input{
   width: 80%;
   font-size: 2rem;
 }
 
-.dob, .orderDate{
-  text-align: left;
-  margin: 4.5%;
-}
-
-.dob input{
-  font-size: 1.75rem;
-}
-
-.orderItems input{
-  width: 30%;
-}
 
 .orderItems{
   border: 2px solid black;
   padding: 2%;
   text-align: center;
+  margin:2%;
 }
 
 .row{
