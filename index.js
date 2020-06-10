@@ -19,6 +19,7 @@ app.use('/', express.static('public'));
 //set routes in the form of page_name/api
 app.use('/inventory/api', require('./routes/inventory'));
 app.use('/addItem/api', require('./routes/addItemRoute'));
+app.use('/order/api', require('./routes/order'));
 
 app.get('/', function(req, res){
     res.render('main');
