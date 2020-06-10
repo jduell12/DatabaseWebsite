@@ -45,6 +45,7 @@ function generateTable(tableData){
 
     for(let i = 0; i < dataArray.length; i++){
         let row = document.createElement('tr');
+        row.className = 'tr';
         let id = tableData['data'][i][tableData['columnOrder'][0]['id']];
         row.setAttribute('id', id);
         let rowNum = 0;
@@ -52,11 +53,13 @@ function generateTable(tableData){
         for(let j = 0; j < colomnOrderArray.length; j++){
             let key = tableData['columnOrder'][j]['id'];
             let cell = document.createElement('td');
+            cell.className = 'td';
             cell.id = key + '-' + id;
             cell.textContent = key == 'actions' ? '': tableData['data'][i][key];
 
             if(j == 0){
                 cell.style.display = "none";
+                cell.classList.remove('td');
             }
             row.appendChild(cell);
         }
@@ -89,7 +92,7 @@ function generateTable(tableData){
     table.appendChild(header);
     table.appendChild(body);
 
-    // console.log(table);
+    getSearchBar();
 }
 
 function editItem(id, callback, rowOrder){
@@ -155,6 +158,56 @@ function deleteItem(id){
         console.log(err);
     })
 
+}
+
+function getSearchBar(){
+    let tableTitle = document.querySelector('#table-title');
+    let tableRows = document.querySelectorAll('.tr');
+    let rowLengh = tableRows.length;
+    let tableCells = document.querySelectorAll('.td');
+    let cellLength = tableCells.length;
+
+    let searchBar = document.createElement('input');
+    searchBar.setAttribute('type', 'text');
+    searchBar.placeholder = "Search for Items"
+
+    searchBar.addEventListener('keyup', event => {
+        let value = event.target.value;
+        value = value.toUpperCase();
+        
+        tableRows.forEach(row => {
+            let td = row.childNodes;
+            let tdArray = Array.from(td);
+            let equals = true;
+
+            let newTD = tdArray.filter(cell => {
+                if(cell.style.display !== 'none'){
+                    if(cell.innerText !== 'Edit'){
+                        if(cell.innerText !== 'Delete'){
+                            return cell;
+                        }
+                    }
+                } 
+            })
+
+            for(let i = 0; i < 4; i++){
+                if(newTD[i].innerText.toUpperCase().indexOf(value) > -1){
+                    equals = false;
+                } 
+            }
+
+            if(value === ""){
+                row.style.display = "";
+            }else if(equals){
+                row.style.display ="none";
+            }
+            
+        })
+        
+        
+    })
+
+    tableTitle.appendChild(searchBar);
 }
 
 function pageInit(){

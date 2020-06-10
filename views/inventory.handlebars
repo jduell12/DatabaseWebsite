@@ -22,24 +22,11 @@
     </header>
 
     <section class="tableWrapper">
-      <h2>Current Inventory</h2>
-      <input class="search" type="text" id="myInput" placeholder="'Quick Search' Enter your search criteria ...">
-
+      <h2 id="table-title">Current Inventory</h2>
       <table id="table-body" class="table">
       </table>
       <button class="add" onclick="window.location.href='/addItem'">Add New Inventory</button>
     </section>
   </div>
-
-<script>
-$(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-    });
-  });
-});
-</script>
 </main>
 <script src="scripts/inventory.js"></script>
