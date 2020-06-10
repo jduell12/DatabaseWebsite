@@ -121,6 +121,12 @@ function editItem(id, callback, rowOrder){
             let element = document.getElementById(item['id'] + '-' + id);
             let value = element.textContent || "";
             element.innerHTML = "";
+            
+            if(item['id'] === 'order_Date'){
+                let dateArray = value.split('-');
+                let date = dateArray[2] + '-' + dateArray[0] + '-' + dateArray[1];
+                value = date;
+            }
 
             let input = document.createElement('input');
             input.setAttribute('type', item['type']);
@@ -148,6 +154,8 @@ function updateItem(id){
         if(key !== 'item_Num'){
             let element = document.getElementById(key + '-' + id + '-input');
             context[key] = element.value; 
+
+            
         }
     }
 
@@ -169,21 +177,19 @@ function updateItem(id){
         context.order_Shipped = 0;
     }
 
-    console.log(context);
+    let putRequest = httpRequest('PUT', '/order/api', context);
 
-    // let putRequest = httpRequest('PUT', '/inventory/api', context);
-
-    // putRequest.then(function(result){
-    //     updateTable(result);
-    // }).catch(function(err){
-    //     console.log(err);
-    // })
+    putRequest.then(function(result){
+        updateTable(result);
+    }).catch(function(err){
+        console.log(err);
+    })
 }
 
 function deleteItem(id){
     let data = {};
     data.id = id;
-    let deleteRequest = httpRequest('DELETE', '/inventory/api', data);
+    let deleteRequest = httpRequest('DELETE', '/order/api', data);
 
     deleteRequest.then(function(result){
         updateTable(result);
