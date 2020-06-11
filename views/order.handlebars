@@ -36,7 +36,7 @@
           {{#each orders}}
           <tr>
             <td hidden>{{order_Num}}</td>
-            <td>{{moment order_Date format="DD MMM, YYYY"}}</td>
+            <td>{{order_Date}}</td>
             <td>{{first_Name}} {{last_Name}}</td>
             <td>{{payment_Type}}</td>
             {{#if order_Complete}}
