@@ -73,7 +73,7 @@ function generateTable(tableData){
             } else if(j === 3){
                 cell.textContent = tableData['data'][i]['phone_Num'];
             } else if(j === 4){
-                cell.textContent = tableData['data'][i]['street'] + " " + tableData['data'][i]['city'] + '\n' + tableData['data'][i]['shipState'] + ", " + tableData['data'][i]['zip'] + " " + tableData['data'][i]['country'];
+                cell.textContent = tableData['data'][i]['street'] + " " + tableData['data'][i]['city'] + ' ' + tableData['data'][i]['shipState'] + ", " + tableData['data'][i]['zip'] + " " + tableData['data'][i]['country'];
             } else if (j === 5){
                 cell.textContent = tableData['data'][i]['email'];
             }else if (j === colomnOrderArray.length-1){
@@ -165,15 +165,21 @@ function updateItem(id){
     let updateButton = document.getElementById('update-' + id);
     updateButton.style.display = 'none';
 
-    console.log(context);
+    let customer_Name = context['customer_Name'];
+    let nameArr = customer_Name.split(" ");
+    let first_Name = nameArr[0];
+    let last_Name = nameArr[1];
+    context.first_Name = first_Name;
+    context.last_Name = last_Name;
 
-    // let putRequest = httpRequest('PUT', '/customer/api', context);
 
-    // putRequest.then(function(result){
-    //     updateTable(result);
-    // }).catch(function(err){
-    //     console.log(err);
-    // })
+    let putRequest = httpRequest('PUT', '/customer/api', context);
+
+    putRequest.then(function(result){
+        updateTable(result);
+    }).catch(function(err){
+        console.log(err);
+    })
 }
 
 function deleteItem(id){

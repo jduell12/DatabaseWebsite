@@ -12,7 +12,20 @@ router.route('/')
             res.json({'payload': results});
         }) 
     })
-    .post(function(req, res){
+    .put(function(req, res){
+        mysql.pool.query("UPDATE Customers SET first_Name = ?, last_Name = ?, phone_Num = ?, email = ?, preferred_Payment_Type = ?, dob=? WHERE customer_Num = ?;", [req.body.first_Name, req.body.last_Name, req.body.phone_Num, req.body.email, req.body.payment, req.body.dob, req.body.id], function(err, results){
+            if(err){
+                res.write(JSON.stringify(err));
+                res.end();
+            }
+            mysql.pool.query("SELECT * from Customers INNER JOIN Billing_Addresses ON Customers.customer_Num = fk_billing_customer_Num INNER JOIN Shipping_Addresses ON Customers.customer_Num = Shipping_Addresses.fk_shipping_customer_Num;", function(err, results){
+                if(err){
+                    res.write(JSON.stringify(err));
+                    res.end();
+                }
+                res.json({'payload': results});
+            }) 
+        })
         
     })
     .delete(function(req, res){
