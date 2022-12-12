@@ -8,7 +8,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-handlebars": "^4.0.4",
     "handlebars-helpers": "^0.10.0",
     "mysql": "^2.18.1"
